@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylish Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .timer-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .display {
+      font-size: 3rem;
+      font-weight: bold;
+      padding: 20px;
+      background-color: #333;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .label {
+      font-size: 1rem;
+      color: #bbb;
+      margin-top: 8px;
+    }
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    /* button:hover {
+      background-color: #444;
+    }
+    .play {
+      background-color: #4caf50;
+      color: white;
+    }
+    .pause {
+      background-color: #ff9800;
+      color: white;
+    }
+    .reset {
+      background-color: #f44336;
+      color: white;
+    } */
+  </style>
+</head>
+<body>
+
+<div class="timer-container">
+  <div class="display" id="hours">00</div>
+  <div class="display" id="minutes">00</div>
+  <div class="display" id="seconds">00</div>
+  <div class="display" id="milliseconds">000</div>
+</div>
+
+<div class="button-container">
+  <button class="play" onclick="startTimer()">Start</button>
+  <button class="pause" onclick="pauseTimer()">Pause</button>
+  <button class="reset" onclick="resetTimer()">Reset</button>
+</div>
+
+<script>
+  let hours = 0, minutes = 0, seconds = 0, milliseconds = 0;
+  let timerInterval;
+
+  function updateDisplay() {
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    document.getElementById('milliseconds').textContent = String(milliseconds).padStart(3, '0');
+  }
+
+  function startTimer() {
+    if (!timerInterval) {
+      timerInterval = setInterval(() => {
+        milliseconds += 1;
+        if (milliseconds === 100) {
+          milliseconds = 0;
+          seconds++;
+          if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes === 60) {
+              minutes = 0;
+              hours++;
+            }
+          }
+        }
+        updateDisplay();
+      }, 10);
+    }
+  }
+
+  function pauseTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
+    milliseconds = 0;
+    updateDisplay();
+  }
+</script>
+
+</body>
+</html>
